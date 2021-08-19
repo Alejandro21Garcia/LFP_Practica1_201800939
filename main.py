@@ -9,8 +9,8 @@ def abrir():
         title = "Seleccionar un archivo LFP",
         initialdir = "./",
         filetypes = (
-            ("archivos LFP", "*.lfp"),
-            ("todos los archivos","*.*")
+            ("Archivos LFP", "*.lfp"),
+            ("Todos los archivos","*.*")
         )
     )
 
@@ -22,6 +22,52 @@ def abrir():
         archivo.close()
         print("Lectura Exitosa")
         return texto
+
+def analizador(entrada):
+
+    curso = ''
+    datosEst = ''
+    parametro = ''
+
+    aux = ''
+    estado = 'curso'
+    posicion = 1
+
+    for i in entrada:
+        if estado == 'curso':
+            if i == '=':
+                estado = 'datosEst'
+                curso = aux
+                aux = ''
+            else:
+                aux += i
+
+            posicion += 1
+
+        if estado == 'datosEst':
+            if i == '{' or i == '}' or i== '<' or i== '>':
+                estado = 'parametro'
+                datosEst = aux
+                aux = ''
+            else:
+                aux += i
+
+            posicion += 1
+        if estado == 'parametro':
+            if(posicion == len(entrada)):
+                aux += i
+                parametro = aux
+                aux = ''
+            else:
+                aux += i
+
+            posicion += 1
+
+        else:
+            return  None
+    return [curso,datosEst,parametro]
+
+
 
 
 
@@ -51,7 +97,11 @@ if __name__=='__main__':
 
             txt = abrir()
             if txt is not None:
-                print(txt)
+                if txt == '':
+                    print("Archivo vacio")
+                else:
+                    print(txt)
+                    analizador(txt)
             else:
                 print("Vuelva a intentarlo por favor")
 
