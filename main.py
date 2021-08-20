@@ -101,13 +101,16 @@ if __name__=='__main__':
                     print("Archivo vacio")
                 else:
                     print(txt)
-                    analizador(txt)
+                    print(analizador(txt))
+
             else:
                 print("Vuelva a intentarlo por favor")
 
 
         elif opcion == "2":
             print('Mostrar reporte en consola')
+            print(analizador(txt))
+
 
         elif opcion == "3":
             print('Exportar reporte')
